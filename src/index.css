@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+
+  /* Pharmacy green + trust blue — from ui-ux-pro-max design system pull */
+  --color-primary: #15803d;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #22c55e;
+  --color-secondary-foreground: #0f172a;
+  --color-accent: #0369a1;
+  --color-accent-foreground: #ffffff;
+
+  --color-background: #f0fdf4;
+  --color-foreground: #14532d;
+  --color-card: #ffffff;
+  --color-card-foreground: #14532d;
+  --color-muted: #e8f0f1;
+  --color-muted-foreground: #475569;
+  --color-border: #bbf7d0;
+
+  /* Severity colors — used only by RedFlagBanner, never as decoration elsewhere */
+  --color-emergency: #dc2626;
+  --color-emergency-foreground: #ffffff;
+  --color-urgent: #b45309;
+  --color-urgent-foreground: #ffffff;
+  --color-routine: #15803d;
+  --color-routine-foreground: #ffffff;
+
+  --color-ring: #15803d;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Respect reduced motion per accessibility checklist */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
