@@ -7,6 +7,7 @@ import { SplashScreen } from './screens/SplashScreen';
 import { TriageChecklist } from './screens/TriageChecklist';
 import { ReferralScreen } from './screens/ReferralScreen';
 import { ChatScreen } from './screens/ChatScreen';
+import { ReferralHistoryScreen } from './screens/ReferralHistoryScreen';
 
 const SPLASH_SEEN_KEY = 'htw_seen_splash';
 
@@ -21,17 +22,19 @@ function hasSeenSplash() {
  * react-router once there's a screen that needs deep-linking (e.g. a
  * referral list/dashboard).
  *
- * Screen precedence: splash (once per session) > chat (explicit
- * online-only detour) > referral (once generated) > checklist
- * (default). Chat and referral are mutually exclusive detours off the
- * checklist — going back from either always returns there.
+ * Screen precedence: splash (once per session) > chat / history
+ * (explicit detours) > referral (once generated) > checklist
+ * (default). Chat, history, and referral are mutually exclusive
+ * detours off the checklist — going back from any of them always
+ * returns there.
  */
 function App() {
   const [showSplash, setShowSplash] = useState(() => !hasSeenSplash());
   const [showChat, setShowChat] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
 
   const triage = useTriageEngine();
-  const { referral, generate, advanceStatus, reset } = useReferral();
+  const { referral, generate, markSent, reset } = useReferral();
   const chat = useChat();
   const isOnline = useOnlineStatus();
 
@@ -69,9 +72,13 @@ function App() {
     );
   }
 
+  if (showHistory) {
+    return <ReferralHistoryScreen onBack={() => setShowHistory(false)} />;
+  }
+
   if (referral) {
     return (
-      <ReferralScreen referral={referral} onAdvanceStatus={advanceStatus} onBack={reset} />
+      <ReferralScreen referral={referral} onMarkSent={markSent} onBack={reset} />
     );
   }
 
@@ -81,6 +88,7 @@ function App() {
       onGenerateReferral={handleGenerateReferral}
       onAcknowledgeDispense={triage.reset}
       onOpenChat={() => setShowChat(true)}
+      onOpenHistory={() => setShowHistory(true)}
     />
   );
 }

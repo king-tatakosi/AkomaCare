@@ -11,7 +11,7 @@ import { RedFlagBanner } from '../components/RedFlagBanner';
 import { AgeGroupToggle } from '../components/AgeGroupToggle';
 import { SegmentedToggle } from '../components/SegmentedToggle';
 import { PrescribingGuidanceCard } from '../components/PrescribingGuidanceCard';
-import { WifiOff, Info, MessageCircle, AlertOctagon } from 'lucide-react';
+import { WifiOff, Info, MessageCircle, AlertOctagon, History } from 'lucide-react';
 
 const MRDT_OPTIONS = [
   { id: MRDT_RESULT.NOT_DONE, label: 'Not Done' },
@@ -75,6 +75,7 @@ export function TriageChecklist({
   onGenerateReferral,
   onAcknowledgeDispense,
   onOpenChat,
+  onOpenHistory,
 }) {
   const footer = FOOTER_CONFIG[result.overallSeverity];
   const isDisabled = symptoms.size === 0 && otherSymptoms.length === 0;
@@ -97,6 +98,14 @@ export function TriageChecklist({
             <WifiOff aria-hidden="true" size={14} />
             Offline mode
           </span>
+          <button
+            type="button"
+            onClick={onOpenHistory}
+            aria-label="View referral history"
+            className="min-h-11 min-w-11 flex items-center justify-center rounded-full bg-black/15 hover:bg-black/25 cursor-pointer touch-manipulation transition-colors duration-150 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-(--color-ring)"
+          >
+            <History aria-hidden="true" size={18} />
+          </button>
           {/* Labeled pill, not an icon-only button — an icon alone here was
               getting missed entirely on first visits (design-critique
               session). Matches the existing pill shape used for the
